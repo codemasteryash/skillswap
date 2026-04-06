@@ -31,8 +31,9 @@ public class TransactionController {
     }
 
     @PostMapping("/rate")
-    public String rateTransaction(@RequestParam Long transactionId, @RequestParam int rating,@RequestParam String feedback) {
-        return transactionService.rateTransaction(transactionId, rating,feedback);
+    public String rateTransaction(@RequestParam Long requesterId,@RequestParam Long transactionId, @RequestParam int rating,@RequestParam String feedback) {
+        userService.getByIdOrThrow(requesterId); // Ensure transaction exists
+        return transactionService.rateTransaction(transactionId, rating, feedback);
     }
 
     @GetMapping("/search")
