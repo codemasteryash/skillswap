@@ -22,11 +22,14 @@ public class TransactionService {
 
     private final SkillRepository skillRepository;
 
-    public TransactionService(UserRepository userRepository, TransactionRepository transactionRepository, CreditLedgerRepository creditLedgerRepository, SkillRepository skillRepository) {
+    private final NotificationService notificationService;
+
+    public TransactionService(UserRepository userRepository, TransactionRepository transactionRepository, CreditLedgerRepository creditLedgerRepository, SkillRepository skillRepository, NotificationService notificationService) {
         this.userRepository = userRepository;
         this.transactionRepository = transactionRepository;
         this.creditLedgerRepository = creditLedgerRepository;
         this.skillRepository = skillRepository;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -66,6 +69,11 @@ public class TransactionService {
 
         creditLedgerRepository.save(createLedger(learner,savedTransaction,-hours,"DEBIT"));
         creditLedgerRepository.save(createLedger(teacher,savedTransaction,hours,"CREDIT"));
+        notificationService.notifySwapCompleted(
+                learnerId,
+                teacherId,
+                savedTransaction.getTransactionId(),
+                skill.getName());
         return "Swap completed successfully";
 }
 
@@ -91,6 +99,7 @@ public class TransactionService {
         txn.setFeedback(feedback);
 
         transactionRepository.save(txn);
+        notificationService.notifyTeacherRated(txn.getProviderId(), transactionId, rating);
 
         return "Rating submitted!";
     }

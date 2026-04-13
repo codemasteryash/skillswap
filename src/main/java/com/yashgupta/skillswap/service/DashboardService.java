@@ -61,7 +61,7 @@ public class DashboardService {
     public DashboardBundleResponse getFullDashboard(Long userId, int ledgerLimit, int transactionLimit) {
         return DashboardBundleResponse.builder()
                 .summary(getSummary(userId))
-                .recentLedger(getRecentLedger(userId, ledgerLimit))
+                .recentLedgerEntries(getRecentLedger(userId, ledgerLimit))
                 .recentTransactions(getRecentTransactions(userId, transactionLimit))
                 .build();
     }
