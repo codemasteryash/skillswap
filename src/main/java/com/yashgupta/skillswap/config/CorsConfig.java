@@ -20,9 +20,14 @@ public class CorsConfig {
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
+        config.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "http://localhost:8080"
+        ));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
 }
