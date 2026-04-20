@@ -8,6 +8,7 @@ import com.yashgupta.skillswap.entity.User;
 import com.yashgupta.skillswap.repository.UserRepository;
 import com.yashgupta.skillswap.security.JwtService;
 import com.yashgupta.skillswap.security.UserDetailsImpl;
+import lombok.Builder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

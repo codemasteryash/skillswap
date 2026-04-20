@@ -24,6 +24,7 @@ public class User {
     @Column(nullable = false, length = 120)
     private String password;
 
+    @Builder.Default
     private double credits=5.0;
 
     @Builder.Default

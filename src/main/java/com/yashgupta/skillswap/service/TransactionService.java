@@ -51,7 +51,7 @@ public class TransactionService {
                 .orElseThrow(() -> new RuntimeException("Skill not found"));
         double totalCost = hours * skill.getPricePerHour();
 
-        if(learner.getCredits() < hours){
+        if(learner.getCredits() < totalCost){
             throw new RuntimeException("Insufficient credits");
         }
         learner.setCredits(learner.getCredits() - totalCost);
@@ -67,8 +67,8 @@ public class TransactionService {
         transaction.setStatus("COMPLETED");
         Transaction savedTransaction = transactionRepository.save(transaction);
 
-        creditLedgerRepository.save(createLedger(learner,savedTransaction,-hours,"DEBIT"));
-        creditLedgerRepository.save(createLedger(teacher,savedTransaction,hours,"CREDIT"));
+        creditLedgerRepository.save(createLedger(learner, savedTransaction, -totalCost, "DEBIT"));
+        creditLedgerRepository.save(createLedger(teacher, savedTransaction, totalCost, "CREDIT"));
         notificationService.notifySwapCompleted(
                 learnerId,
                 teacherId,
